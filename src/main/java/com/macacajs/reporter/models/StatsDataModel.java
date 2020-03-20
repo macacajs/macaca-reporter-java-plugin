@@ -1,27 +1,12 @@
-package com.macaca.reporter.models;
+package com.macacajs.reporter.models;
 
 import lombok.Data;
 
-@Data
 /**
- *  "stats": {
- *     "suites": 5,
- *     "tests": 5,
- *     "passes": 4,
- *     "pending": 0,
- *     "failures": 3,
- *     "start": "2020-03-04T06:29:41.554Z",
- *     "passPercent": 80,
- *     "pendingPercent": 0,
- *     "other": 0,
- *     "hasOther": false,
- *     "skipped": 0,
- *     "hasSkipped": false,
- *     "duration": 90295,
- *     "end": "2020-03-04T06:31:30.348Z"
- *   }
+ * @author houseshi
  */
-public class StatsDateModel {
+@Data
+public class StatsDataModel {
     /**
      *  套件
      */

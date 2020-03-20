@@ -1,12 +1,13 @@
-package com.macaca.reporter.models;
+package com.macacajs.reporter.models;
 
 import lombok.Data;
 
 /**
  *  ctx . runnable
+ * @author houseshi
  */
 @Data
-public class RunnableModle {
+public class RunnableModel {
     private String title;
     private String body;
     private Long async;

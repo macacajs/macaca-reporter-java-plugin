@@ -1,4 +1,4 @@
-package com.macaca.reporter.models;
+package com.macacajs.reporter.models;
 
 import lombok.Data;
 
@@ -14,9 +14,10 @@ import lombok.Data;
  *                         "code": "return driver\n  .nlpSection(`\n    访问 https://www.baidu.com\n    等待 3秒\n    在第一个输入框输入 Macaca\n    点击百度一下按钮\n  `);",
  *                         "uuid": "2c6f09ef-069c-4394-bc8d-3da8f403dc2c",
  *                         "skipped": false
+ * @author houseshi
  */
 @Data
-public class TestsModle {
+public class TestsModel {
     private String title;
     private String fullTitle;
     private Long duration;

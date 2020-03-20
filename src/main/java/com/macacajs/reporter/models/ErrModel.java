@@ -1,10 +1,12 @@
-package com.macaca.reporter.models;
+package com.macacajs.reporter.models;
 
 import lombok.Data;
+
 /**
  * RunnableModle . err
+ * @author houseshi
  */
 @Data
-public class ErrModle {
+public class ErrModel {
     private String code;
 }

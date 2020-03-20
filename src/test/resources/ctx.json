@@ -1,0 +1,39 @@
+{
+  "_runnable": {
+    "title": "#0 should be ok",
+    "body": "function() {\n      return driver\n        .nlpSection(`\n          访问 https://www.baidu.com\n          等待 3秒\n          在第一个输入框输入 Macaca\n          点击百度一下按钮\n        `);\n    }",
+    "async": 0,
+    "sync": true,
+    "_timeout": 300000,
+    "_slow": 75,
+    "_enableTimeouts": true,
+    "timedOut": false,
+    "_trace": {},
+    "_retries": -1,
+    "_currentRetry": 0,
+    "pending": false,
+    "type": "test",
+    "file": "/Users/renge/Documents/code/github.com/macaca-sample/sample-nodejs/macaca-test/desktop-browser-ai-sample.test.js",
+    "parent": "~suites~suites~0~suites~0",
+    "ctx": "~suites~suites~0~suites~0~ctx",
+    "_events": {},
+    "_eventsCount": 1,
+    "timer": {
+      "_idleTimeout": -1,
+      "_idlePrev": null,
+      "_idleNext": null,
+      "_idleStart": 6629,
+      "_onTimeout": null,
+      "_repeat": null,
+      "_destroyed": true
+    },
+    "duration": 18,
+    "state": "failed",
+    "err": {
+      "code": "ERR_INVALID_ARG_TYPE"
+    },
+    "uuid": "2c6f09ef-069c-4394-bc8d-3da8f403dc2c",
+    "context": "../screenshots/6f0b3552-4f97-4e71-a1f5-5a81bb035849.png"
+  },
+  "test": "~suites~suites~0~suites~0~ctx~_runnable"
+}
