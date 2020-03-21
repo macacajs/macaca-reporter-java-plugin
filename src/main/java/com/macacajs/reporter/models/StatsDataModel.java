@@ -2,6 +2,8 @@ package com.macacajs.reporter.models;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @author houseshi
  */
@@ -30,7 +32,7 @@ public class StatsDataModel {
     /**
      * 开始时间
      */
-    private String start;
+    private LocalDateTime start;
     /**
      * 通过占比
      */
@@ -53,5 +55,5 @@ public class StatsDataModel {
      * 执行时长
      */
     private Long duration;
-    private String end;
+    private LocalDateTime end;
 }

@@ -14,7 +14,7 @@ public class EachRunnableModel {
     private String body;
     private Long async;
     private Boolean sync;
-    @JSONField(name = "_events")
+    @JSONField(name = "timeout")
     private Long timeout;
     @JSONField(name = "_slow")
     private Long slow;
@@ -38,4 +38,5 @@ public class EachRunnableModel {
     private RunnableTimer timer;
     private Long duration;
     private ErrModel err;
+    private String uuid;
 }

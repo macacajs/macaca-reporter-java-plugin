@@ -36,6 +36,7 @@ public class SuitesDataModel {
     @JSONField(name = "_onlySuites")
     private Object[] onlySuites;
     private Boolean delayed;
+    private String parent;
     private Object events;
     private Long eventsCount;
     private String uuid;
