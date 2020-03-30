@@ -1,6 +1,6 @@
 package com.macacajs.reporter.models;
 
-import lombok.Data;
+
 
 /**
  *  "suites": {
@@ -11,7 +11,7 @@ import lombok.Data;
  *       }
  * @author houseshi
  */
-@Data
+@Deprecated
 public class SuitesDataTestModel {
     private String title;
     private Object ctx;
