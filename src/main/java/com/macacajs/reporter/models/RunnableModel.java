@@ -3,6 +3,7 @@ package com.macacajs.reporter.models;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
+
 /**
  *  ctx . runnable
  * @author houseshi
@@ -44,5 +45,4 @@ public class RunnableModel {
     private String context;
     @JSONField(name = "_error")
     private String error;
-
 }

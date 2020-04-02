@@ -11,5 +11,5 @@ import lombok.Data;
 public class CtxModel {
     @JSONField(name = "_runnable")
     private EachRunnableModel runnable;
-    private String test;
+    private Object test;
 }

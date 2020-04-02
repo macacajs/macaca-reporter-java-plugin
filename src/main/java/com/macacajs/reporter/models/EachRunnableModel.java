@@ -30,7 +30,7 @@ public class EachRunnableModel {
     private Boolean pending;
     private String type;
     private String parent;
-    private String ctx;
+    private CtxModel ctx;
     @JSONField(name = "_events")
     private EventsModel events;
     @JSONField(name = "_eventsCount")
