@@ -4,31 +4,33 @@ package com.macacajs.reporter;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.macacajs.reporter.models.*;
+import lombok.SneakyThrows;
 import org.junit.platform.engine.TestExecutionResult;
 
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
+import sun.misc.BASE64Encoder;
 
 import java.io.*;
 
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 
 /**
- * @author niaoshuai
+ * @author niaoshuai & shixing
  */
 
 public class MacacaTestExecutionListener implements TestExecutionListener {
     MacacaReportModel macacaReportModel;
     StatsDataModel planStats;
     SuitesDataModel planSuites;
+    CurrentModle currentModle;
+    CaseModel caseModel;
+    List<CaseModel> caseModels;
     //  测试套件的列表与 对象
     List<SuitesDataModel> testClassSuitesList ;
     SuitesDataModel testClassSuites;
@@ -64,6 +66,8 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     public void testPlanExecutionStarted(TestPlan testPlan) {
         planStats = new StatsDataModel();
         planSuites = new SuitesDataModel();
+        currentModle = new CurrentModle();
+        caseModels = new ArrayList<>();
         planStats.setStart(LocalDateTime.now());
         Set<TestIdentifier> setRoots = testPlan.getRoots();
         for(TestIdentifier ti : setRoots){
@@ -182,6 +186,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
      *
      * @param testIdentifier
      */
+    @SneakyThrows
     @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         testEnd = LocalDateTime.now();
@@ -193,6 +198,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         }
         if (pid.equals(parentId) && childId.equals(uuqueid)) {
 //            ResultGenerator.customLog("case结束", "caseEnd");
+            caseModel = new CaseModel();
             Duration duration = Duration.between(testStar, testEnd);
             tests.setDuration(duration.toMillis());
             if ("SUCCESSFUL".equals(testExecutionResult.getStatus().name())) {
@@ -205,8 +211,10 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 passes++;
 //                ResultGenerator.customLog("case通过", "case通过");
                 passTestModleList.add(tests);
+                caseModel.setTitle(testIdentifier.getUniqueId());
+                caseModel.setValue(testExecutionResult.getStatus().name());
             } else {
-                tests.setContext("/error.png");
+                tests.setContext(imageNow(testIdentifier.getDisplayName()));
                 tests.setPass(false);
                 tests.setFail(true);
                 tests.setSkipped(false);
@@ -216,8 +224,11 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 failures++;
 //                ResultGenerator.customLog("case失败", "case失败");
                 failuresTestModleList.add(tests);
+                caseModel.setTitle(testIdentifier.getUniqueId());
+                caseModel.setValue(testExecutionResult.getStatus().name());
             }
             testsModelList.add(tests);
+            caseModels.add(caseModel);
         } else if (uuqueid.equals(parentId)) {
             caseSuitesEnd = LocalDateTime.now();
 //            ResultGenerator.customLog("写入after", "写入after");
@@ -339,20 +350,29 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planStats.setHasSkipped(false);
         planStats.setTests((long)testCount);
 
-
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMaximumFractionDigits(2);
-        String result = numberFormat.format((float) passes / (float) testCount );
-        if(isNumeric(result)){
-            planStats.setPassPercent(Long.valueOf(result));
+        if(passes == 0) {
+            planStats.setPassPercent((long)0);
+        }else if(failures == 0){
+            planStats.setPassPercent((long)100);
+        }else {
+            String result = numberFormat.format((float) passes / (float) testCount );
+            long passPercent = Long.parseLong(result);
+            planStats.setPassPercent(passPercent);
         }
         planStats.setPassPercent((long)100);
         planStats.setPending((long)0);
+
+//      设置logo 面板数据
+        currentModle.setImage(getLogo());
+        currentModle.setList(caseModels);
 
         macacaReportModel = new MacacaReportModel();
 
         macacaReportModel.setStats(planStats);
         macacaReportModel.setSuites(planSuites);
+        macacaReportModel.setCurrent(currentModle);
         String reportJson = "module.exports = " + JSONObject.toJSONString(macacaReportModel, SerializerFeature.DisableCircularReferenceDetect);
         try {
             writeJs("report.js",reportJson);
@@ -373,10 +393,14 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     }
 
 
+    /*
+     *  ======================================== 一些方法 ==============================================
+     */
+
     /**
      * 输出 Js
-     * @param name
-     * @param content
+     * @param name  文件名
+     * @param content  内容
      * @throws Exception
      */
     public static void writeJs(String name, String content) throws IOException {
@@ -386,11 +410,23 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     }
 
     /**
-     * 执行cmd生成报告 。。。存在文件占用的问题，暂时不可用，生成js后，可 手动执行 macaca-reporter -d report.js 生成报告
+     * 判断是否这是logo
      * @return
      */
-    public static  List<String> exec2() {
-        String cmd = "macaca-reporter -d "+ System.getProperty("user.dir") + File.separator+"report.js";
+    private static String getLogo(){
+        String logoUrl = System.getProperty("logo");
+        if(logoUrl == null){
+            return "https://macacajs.github.io/macaca-logo/svg/monkey.svg";
+        }
+        return logoUrl;
+    }
+
+    /**
+     * js生成后 执行cmd生成报告
+     * @return
+     */
+    public static void exec2(){
+        String cmd = isWindows() ? "macaca-reporter.cmd -d  report.js" : "macaca-reporter -d  report.js";
         Runtime run = Runtime.getRuntime();
         ArrayList lines = new ArrayList();
         try {
@@ -404,23 +440,59 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             inBr.close();
             in.close();
         } catch (Exception var7) {
+            var7.getMessage();
         }
-        return lines;
     }
-
 
     /**
-     * 判断是否是数字
-     * @param str
+     * 是否windows
      * @return
      */
-    public static boolean isNumeric(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            System.out.println(str.charAt(i));
-            if (!Character.isDigit(str.charAt(i))) {
-                return false;
+    private static boolean isWindows() {
+        return System.getProperty("os.name").toLowerCase().contains("win");
+    }
+
+    /**
+     * 图片转码
+     * @param imgPath
+     * @return
+     */
+    private static String imageToBase64(String imgPath) {
+        byte[] data = null;
+        // 读取图片字节数组
+        try {
+            InputStream in = new FileInputStream(imgPath);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 对字节数组Base64编码
+        BASE64Encoder encoder = new BASE64Encoder();
+        // 返回Base64编码过的字节数组字符串
+        String base64IMage = "data:image/png;base64,"+encoder.encode(Objects.requireNonNull(data));
+        return base64IMage;
+    }
+
+    /**
+     * 判断图片路径下是否有该方法的截图生成截图
+     * @param name
+     * @return
+     * @throws IOException
+     */
+    private static String imageNow(String name) throws IOException {
+        File file = new File(System.getProperty("user.dir")+File.separator+"screenshot");
+        File[] fileList = file.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            if (fileList[i].isFile()) {
+                String filePath = fileList[i].getCanonicalPath();
+                if(filePath.indexOf(name)>0){
+                    return imageToBase64(filePath);
+                }
             }
         }
-        return true;
+        return null;
     }
+
 }
