@@ -175,7 +175,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             childId = uuqueid;
             tests = new TestsModel();
             tests.setTitle(testIdentifier.getDisplayName());
-            tests.setFullTitle(testIdentifier.getLegacyReportingName());
+            tests.setFullTitle(testIdentifier.getDisplayName());
             tests.setUuid(childId);
         }
 //        ResultGenerator.customLog(testIdentifier.getDisplayName(), "=======================" + JSON.toJSONString(testIdentifier));
@@ -211,7 +211,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 passes++;
 //                ResultGenerator.customLog("case通过", "case通过");
                 passTestModleList.add(tests);
-                caseModel.setTitle(testIdentifier.getUniqueId());
+                caseModel.setTitle(testIdentifier.getDisplayName());
                 caseModel.setValue(testExecutionResult.getStatus().name());
             } else {
                 tests.setContext(imageNow(testIdentifier.getDisplayName()));
@@ -309,7 +309,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         List<EachRunnableModel> runnableModels = new ArrayList<>();
         planSuites.setAfterAll(runnableModels);
         planSuites.setBeforeAll(runnableModels);
-        planSuites.setTitle("macaca自动化测试报告");
+        planSuites.setTitle("");
         planSuites.setCtx(new CtxModel());
         planSuites.setTests(test);
         planSuites.setPending(test);
@@ -349,19 +349,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planStats.setOther((long)0);
         planStats.setHasSkipped(false);
         planStats.setTests((long)testCount);
-
-        NumberFormat numberFormat = NumberFormat.getInstance();
-        numberFormat.setMaximumFractionDigits(2);
-        if(passes == 0) {
-            planStats.setPassPercent((long)0);
-        }else if(failures == 0){
-            planStats.setPassPercent((long)100);
-        }else {
-            String result = numberFormat.format((float) passes / (float) testCount );
-            long passPercent = Long.parseLong(result);
-            planStats.setPassPercent(passPercent);
-        }
-        planStats.setPassPercent((long)100);
+        planStats.setPassPercent(numberFormat(passes,testCount));
         planStats.setPending((long)0);
 
 //      设置logo 面板数据
@@ -376,10 +364,11 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         String reportJson = "module.exports = " + JSONObject.toJSONString(macacaReportModel, SerializerFeature.DisableCircularReferenceDetect);
         try {
             writeJs("report.js",reportJson);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        exec2();
+        exec2();
     }
 
     /**
@@ -405,6 +394,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
      */
     public static void writeJs(String name, String content) throws IOException {
         OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(name), "utf-8");
+        System.out.println("正在生成报告："+content);
         oStreamWriter.append(content);
         oStreamWriter.close();
     }
@@ -428,19 +418,19 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     public static void exec2(){
         String cmd = isWindows() ? "macaca-reporter.cmd -d  report.js" : "macaca-reporter -d  report.js";
         Runtime run = Runtime.getRuntime();
-        ArrayList lines = new ArrayList();
+//        ArrayList lines = new ArrayList();
         try {
             Process p = run.exec(cmd);
             BufferedInputStream in = new BufferedInputStream(p.getInputStream());
             BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
-            String line;
-            while((line = inBr.readLine()) != null) {
-                lines.add(line);
-            }
+//            String line;
+//            while((line = inBr.readLine()) != null) {
+//                lines.add(line);
+//            }
             inBr.close();
             in.close();
         } catch (Exception var7) {
-            var7.getMessage();
+            System.out.println("报告失败了："+var7.getMessage());
         }
     }
 
@@ -493,6 +483,24 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             }
         }
         return null;
+    }
+
+    /**
+     * 计算
+     * @param passes
+     * @param count
+     * @return
+     */
+    public double numberFormat(int passes ,int count){
+        if(count==0){
+            return 0;
+        }
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        String result = numberFormat.format( ((float) passes /  (float)count)*100);
+        double passPercent = Double.valueOf(result);
+        System.out.println(result);
+        return  passPercent;
     }
 
 }
