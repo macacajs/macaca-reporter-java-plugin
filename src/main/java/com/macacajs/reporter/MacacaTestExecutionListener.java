@@ -48,7 +48,9 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
 
     String testPlanId,
             parentId,
-            childId;
+            childId,
+            planName = getPlanName(),
+            logo = getLogo();
     int     passes = 0,
             failures = 0,
             skipped = 0;
@@ -104,11 +106,12 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 testClassCtxModel =  new CtxModel();
             }else {
                 testClassSuitesList.add(testClassSuites);
-                testClassSuites.setFile(testIdentifier.getLegacyReportingName());
+                String date = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+                testClassSuites.setTitle(planName);
+                testClassSuites.setFile(date+"-"+planName);
                 testClassSuites.setFullFile(testIdentifier.getLegacyReportingName());
                 testClassSuites.setParent(parentId);
                 testClassSuites.setUuid(uuqueid);
-                testClassSuites.setTitle(testIdentifier.getDisplayName());
             }
         } else if (testPlanId.equals(pid)) {
 //            ResultGenerator.customLog("写入berfor", "写入berfor");
@@ -325,12 +328,8 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planSuites.setEvents(new EventsModel());
         planSuites.setEventsCount((long) 1);
         planSuites.setUuid(testPlanId);
-
-        String planName = getPlanName();
-        String date = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
-        planSuites.setTitle(planName);
-        planSuites.setFile( date + planName);
-
+        planSuites.setTitle("");
+        planSuites.setFile("");
         planSuites.setPasses(test);
         planSuites.setFailures(test);
         planSuites.setSkipped(test);
@@ -363,13 +362,11 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         macacaReportModel.setStats(planStats);
         macacaReportModel.setSuites(planSuites);
 
-        String logo = getLogo();
         if(logo != null){
-            currentModle.setImage(getLogo());
+            currentModle.setImage(logo);
             currentModle.setList(caseModels);
-            macacaReportModel = new MacacaReportModel();
+            macacaReportModel.setCurrent(currentModle);
         }
-
 
         String reportJson = "module.exports = " + JSONObject.toJSONString(macacaReportModel, SerializerFeature.DisableCircularReferenceDetect);
         try {
