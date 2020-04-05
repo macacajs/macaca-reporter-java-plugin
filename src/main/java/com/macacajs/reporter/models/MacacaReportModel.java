@@ -10,4 +10,5 @@ public class MacacaReportModel {
 
     private StatsDataModel stats;
     private SuitesDataModel suites;
+    private CurrentModle current;
 }

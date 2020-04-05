@@ -36,7 +36,7 @@ public class StatsDataModel {
     /**
      * 通过占比
      */
-    private Long passPercent;
+    private double passPercent;
     /**
      * 挂起占比
      */

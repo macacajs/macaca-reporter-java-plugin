@@ -1,5 +1,6 @@
 package com.macacajs.reporter.models;
 
+
 import lombok.Data;
 
 /**

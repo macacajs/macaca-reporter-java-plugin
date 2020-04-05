@@ -3,6 +3,8 @@ package com.macacajs.reporter.models;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 测试套件运行信息
  * @author houseshi
@@ -11,17 +13,17 @@ import lombok.Data;
 public class SuitesDataModel {
     private String title;
     private Object ctx;
-    private SuitesDataModel[] suites;
-    private Object[] tests;
-    private Object[]  pending;
+    private List<SuitesDataModel> suites;
+    private List<TestsModel> tests;
+    private List<TestsModel> pending;
     @JSONField(name = "_beforeEach")
-    private Object[] beforeEach;
+    private List<EachRunnableModel> beforeEach;
     @JSONField(name = "_beforeAll")
-    private Object[] beforeAll;
+    private List<EachRunnableModel> beforeAll;
     @JSONField(name = "_afterEach")
-    private Object[] afterEach;
+    private List<EachRunnableModel> afterEach;
     @JSONField(name = "_afterAll")
-    private Object[] afterAll;
+    private List<EachRunnableModel> afterAll;
     private Boolean root;
     @JSONField(name = "_timeout")
     private Long timeout;
@@ -32,9 +34,9 @@ public class SuitesDataModel {
     @JSONField(name = "_retries")
     private Long retries;
     @JSONField(name = "_onlyTests")
-    private Object[] onlyTests;
+    private List<TestsModel> onlyTests;
     @JSONField(name = "_onlySuites")
-    private Object[] onlySuites;
+    private List<TestsModel> onlySuites;
     private Boolean delayed;
     private String parent;
     private Object events;
@@ -42,9 +44,9 @@ public class SuitesDataModel {
     private String uuid;
     private String fullFile;
     private String file;
-    private Object[] passes;
-    private Object[] failures;
-    private Object[] skipped;
+    private List<TestsModel> passes;
+    private List<TestsModel> failures;
+    private List<TestsModel> skipped;
     private Long totalTests;
     private Long totalPasses;
     private Long totalFailures;
