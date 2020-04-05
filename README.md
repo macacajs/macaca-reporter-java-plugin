@@ -12,30 +12,10 @@ Macaca Reporter Plugin For Java
   </a>
 </p>
 
----
-
-[Official Site](//macacajs.github.io/macaca-reporter/)
-
-[![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Test coverage][coveralls-image]][coveralls-url]
-[![npm download][download-image]][download-url]
-
-[npm-image]: https://img.shields.io/npm/v/macaca-reporter.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/macaca-reporter
-[travis-image]: https://img.shields.io/travis/macacajs/macaca-reporter.svg?style=flat-square
-[travis-url]: https://travis-ci.org/macacajs/macaca-reporter
-[coveralls-image]: https://img.shields.io/coveralls/macacajs/macaca-reporter.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/macacajs/macaca-reporter?branch=master
-[download-image]: https://img.shields.io/npm/dm/macaca-reporter.svg?style=flat-square
-[download-url]: https://npmjs.org/package/macaca-reporter
-
----
-
 
 ## 使用方法
 
-  以maven插件的形式进行开发，你只需要在pom文件中引入该插件即可。
+  以maven插件的形式进行开发，你只需要在pom文件中引入该插件即可，并使用mvn去执行测试即可。
   
 ```xml
         <dependency>
@@ -46,10 +26,14 @@ Macaca Reporter Plugin For Java
 ```
 
 ## 依赖于junit5的实现
-  我们实现了junit5的TestExecutionListener接口，在测试计划运行过程中，抓取测试数据，生成macaca-report所需要的json数据。
-  根据 `macaca-reporter -d 'test/fixtures/final` 功能，生成对应的macaca测试报告。
-
-  所以你需要使用mvn的指令去执行测试。
+ 
+  #### 实现原理
+  junit5定制了API方法TestExecutionListener，实现此方法可监听测试过程，在工程目录/resources中文件中添加/META-INF/services/org.junit.platform.launcher.TestExecutionListener将自动加载和注册。
+  
+  测试计划运行过程中，我们通过TestExecutionListener接口抓取我们需要的数据，根据macaca-report所需要的json数据，组合出对应的json串。
+  
+  计划运行完毕，通过`macaca-reporter -d 'test/fixtures/final` 生成报告的功能，产出对应的macaca测试报告。
+  
 
 ## 测试报告和json的保存位置
 
@@ -96,18 +80,10 @@ mvn test -DplanName=这是一个测试计划名称
 我们增加了gitLab CI的配置模板，可供参考 。
 
 ## Contributors
-
-|[houseshi](https://github.com/houseshi)<br/>|[niaoshuai](https://github.com/niaoshuai)<br/>|
+|[<img src="https://avatars3.githubusercontent.com/u/50022460?v=4" width="100px;"/><br/><sub><b>houseshi</b></sub>](https://github.com/houseshi)<br/>|[<img src="https://avatars1.githubusercontent.com/u/5117373?v=4" width="100px;"/><br/><sub><b>niaoshuai</b></sub>](https://github.com/niaoshuai)<br/>|
 | :---: | :---: | 
 
-
 <!-- GITCONTRIBUTOR_END -->
-
-## Sample
-
-<div align="center">
-  <img src="https://macacajs.github.io/macaca-reporter/assets/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg" />
-</div>
 
 ## License
 
