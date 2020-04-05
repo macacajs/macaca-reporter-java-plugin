@@ -563,41 +563,6 @@ public class MacacaTestExecutionListenerTest {
             "      title: 'info3 title',\n" +
             "      value: 'info3 content'\n" +
             "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
-            "    }, {\n" +
-            "      title: 'info3 title',\n" +
-            "      value: 'info3 content'\n" +
             "    }]\n" +
             "  }\n" +
             "};\n";

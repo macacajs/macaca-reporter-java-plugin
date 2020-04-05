@@ -1,0 +1,64 @@
+image: maven:3.6.3-jdk-8
+stages:
+  - build
+  - cleanup_build
+  - test
+  - report
+#   - deploy
+
+variables:
+   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=/data/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+   MAVEN_CLI_OPTS: "-s /data/.m2/settings.xml --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true  -DplanName=$PLAN_NAME -Dlogo=$LOGO"
+
+# Cache downloaded dependencies and plugins between builds.
+# To keep cache across branches add 'key: "$CI_JOB_NAME"'
+cache:
+  paths:
+    - .m2/repository
+
+build_job:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS test-compile
+  tags:
+    - maven-ci
+
+test_job:
+  stage: test
+  only:
+    refs:
+      - master@plan-macaca/macaca-web-test
+    variables:
+      - $ENABLE == "true"
+  tags:
+    - maven-ci
+  script:
+    - 'mvn $MAVEN_CLI_OPTS test -DfailIfNoTests=false -Dmaven.test.failure.ignore=true -Dautoconfig.skip'
+  artifacts:
+    paths:
+      - report.js
+
+pages:
+  image: node:lts
+  stage: report
+  dependencies:
+    - test_job
+  only:
+    variables:
+      - $ENABLE == "true"
+  tags:
+    - maven-ci
+#    下方需要根据实际情况修改，不需要的可以删除
+  script:
+    - 'npm config set proxy=http://xxx.xxx.xx.xx:xxx'
+    - 'npm i macaca-reporter -g --registry=http://xxx.xxx.xx.xx:xxxx/repository/npm-public/'
+    - 'macaca-reporter -d report.js'
+    - 'mv reports public'
+  artifacts:
+      paths:
+        - public
+        - report.js
+
+
+
+

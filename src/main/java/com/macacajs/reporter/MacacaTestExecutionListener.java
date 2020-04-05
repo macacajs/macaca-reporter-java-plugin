@@ -15,6 +15,7 @@ import sun.misc.BASE64Encoder;
 import java.io.*;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -309,7 +310,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         List<EachRunnableModel> runnableModels = new ArrayList<>();
         planSuites.setAfterAll(runnableModels);
         planSuites.setBeforeAll(runnableModels);
-        planSuites.setTitle("");
+
         planSuites.setCtx(new CtxModel());
         planSuites.setTests(test);
         planSuites.setPending(test);
@@ -324,7 +325,12 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planSuites.setEvents(new EventsModel());
         planSuites.setEventsCount((long) 1);
         planSuites.setUuid(testPlanId);
-        planSuites.setFile("");
+
+        String planName = getPlanName();
+        String date = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+        planSuites.setTitle(planName);
+        planSuites.setFile( date + planName);
+
         planSuites.setPasses(test);
         planSuites.setFailures(test);
         planSuites.setSkipped(test);
@@ -353,14 +359,18 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planStats.setPending((long)0);
 
 //      设置logo 面板数据
-        currentModle.setImage(getLogo());
-        currentModle.setList(caseModels);
-
         macacaReportModel = new MacacaReportModel();
-
         macacaReportModel.setStats(planStats);
         macacaReportModel.setSuites(planSuites);
-        macacaReportModel.setCurrent(currentModle);
+
+        String logo = getLogo();
+        if(logo != null){
+            currentModle.setImage(getLogo());
+            currentModle.setList(caseModels);
+            macacaReportModel = new MacacaReportModel();
+        }
+
+
         String reportJson = "module.exports = " + JSONObject.toJSONString(macacaReportModel, SerializerFeature.DisableCircularReferenceDetect);
         try {
             writeJs("report.js",reportJson);
@@ -400,15 +410,26 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     }
 
     /**
-     * 判断是否这是logo
+     * 判断是否存在logo
      * @return
      */
     private static String getLogo(){
         String logoUrl = System.getProperty("logo");
-        if(logoUrl == null){
-            return "https://macacajs.github.io/macaca-logo/svg/monkey.svg";
+        if(logoUrl != null){
+            return logoUrl;
         }
-        return logoUrl;
+        return null;
+    }
+    /**
+     * 判断是否这是logo
+     * @return
+     */
+    private static String getPlanName(){
+        String planName = System.getProperty("planName");
+        if(planName != null){
+            return planName;
+        }
+        return "Macaca测试报告";
     }
 
     /**
