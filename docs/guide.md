@@ -6,11 +6,11 @@
 目前我们产出了第一个版本，也就是当前的`macaca-reporter-java-plugin`。报告效果如下：
 
 （图1，据说适当打码有益身心健康）
-![图1](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca1.png)
+![图1](image/macaca1.png)
 （图2）
-![图2](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca2.png)
+![图2](image/macaca2.png)
 （图3）
-![图3](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca3.png)
+![图3](image/macaca3.png)
 
 ## 如何使用macaca-reporter-java 
 
@@ -37,17 +37,6 @@
     <scope>test</scope>
 </dependency>
 
-```
-
-虽然引入了junit5，但是你可能还是需要保留你现有的junit4，依赖于junit4中的Assert进行断言。
-
-```xml
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>compile</scope>
-        </dependency>
 ```
 
 ## 引入macaca-reporter-java-plugin
@@ -129,16 +118,16 @@ mvn执行配置参考
 
 （添加入口）
 
-![添加入口](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/maven1.png)
+![添加入口](image/maven1.png)
 
 （参考）
 
-![参考](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/maven2.png)
+![参考](image/maven2.png)
 
 
 ####  根据上图配置的运行结果
 
-![](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca5.png)
+![](image/macaca5.png)
 
 
 ## 开源仓库

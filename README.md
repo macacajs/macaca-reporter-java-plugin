@@ -25,6 +25,8 @@ Macaca Reporter Plugin For Java
         </dependency>
 ```
 
+[中文文档](docs/guide.md)
+
 ## 依赖于junit5的实现
  
   #### 实现原理
@@ -77,22 +79,11 @@ mvn test -DplanName=这是一个测试计划名称
 
 ## 基于gitLab CI自动执行
 
-我们增加了gitLab CI的配置模板，可供参考 。
+我们增加了gitLab CI的配置模板，可供参考 详见 gitlab-ci.yml
 
 ## Contributors
 |[<img src="https://avatars3.githubusercontent.com/u/50022460?v=4" width="100px;"/><br/><sub><b>houseshi</b></sub>](https://github.com/houseshi)<br/>|[<img src="https://avatars1.githubusercontent.com/u/5117373?v=4" width="100px;"/><br/><sub><b>niaoshuai</b></sub>](https://github.com/niaoshuai)<br/>|
 | :---: | :---: | 
-
-## Sample
-（图1）
-![图1](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca1.png)
-
-（图2）
-![图2](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca2.png)
-
-（图3）
-![图3](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca3.png)
-
 
 <!-- GITCONTRIBUTOR_END -->
 

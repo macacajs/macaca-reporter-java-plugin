@@ -10,7 +10,6 @@ import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
-import sun.misc.BASE64Encoder;
 
 import java.io.*;
 
@@ -467,10 +466,8 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
         // 返回Base64编码过的字节数组字符串
-        String base64Image = "data:image/png;base64,"+encoder.encode(Objects.requireNonNull(data));
+        String base64Image = "data:image/png;base64,"+ Base64.getEncoder().encodeToString(Objects.requireNonNull(data));
         return base64Image;
     }
 
