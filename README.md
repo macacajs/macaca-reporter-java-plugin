@@ -1,5 +1,5 @@
 
-# macaca-reporter-plugin
+# macaca-reporter-java-plugin
 
 Macaca Reporter Plugin For Java
 <p align="center">
@@ -20,7 +20,7 @@ Macaca Reporter Plugin For Java
 ```xml
         <dependency>
             <groupId>com.macacajs</groupId>
-            <artifactId>macaca-reporter-plugin</artifactId>
+            <artifactId>macaca-reporter-java-plugin</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 ```
@@ -38,14 +38,14 @@ Macaca Reporter Plugin For Java
 ## 测试报告和json的保存位置
 
   json会保存到当前工程目录的`report.js`文件。
-  报告文件也会即时生成保存到当前工程目录的 `/reports/index.html` 。 
-  测试运行完成，你只需要查看`/reports/index.html`即可。
+  报告文件也会即时生成保存到当前工程目录的 `./reports/index.html` 。 
+  测试运行完成，你只需要查看`./reports/index.html`即可。
   
 ## 功能
 
 #### 关于截图：
 
-测试运行过程中用例如果执行失败，会在当前工程目录下的 `/screenshot`文件中进行抓取，根据`junit5`的`DisplayName`特性，获取文件名称并检查是否有包含该条测试的截图，将其转换为Base64图片编码，保存到json数据中。
+测试运行过程中用例如果执行失败，会在当前工程目录下的 `./screenshot`文件中进行抓取，根据`junit5`的`DisplayName`特性，获取文件名称并检查是否有包含该条测试的截图，将其转换为Base64图片编码，保存到json数据中。
 所以建议保存截图使用`DisplayName`的方式命名，否则可能获取不到截图。
 
 如：
@@ -82,6 +82,17 @@ mvn test -DplanName=这是一个测试计划名称
 ## Contributors
 |[<img src="https://avatars3.githubusercontent.com/u/50022460?v=4" width="100px;"/><br/><sub><b>houseshi</b></sub>](https://github.com/houseshi)<br/>|[<img src="https://avatars1.githubusercontent.com/u/5117373?v=4" width="100px;"/><br/><sub><b>niaoshuai</b></sub>](https://github.com/niaoshuai)<br/>|
 | :---: | :---: | 
+
+## Sample
+（图1）
+![图1](src/main/resources/image/macaca1.png)
+
+（图2）
+![图2](src/main/resources/image/macaca2.png)
+
+（图3）
+![图3](src/main/resources/image/macaca3.png)
+
 
 <!-- GITCONTRIBUTOR_END -->
 

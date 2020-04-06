@@ -32,18 +32,22 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     CurrentModle currentModle;
     CaseModel caseModel;
     List<CaseModel> caseModels;
-    //  测试套件的列表与 对象
     List<SuitesDataModel> testClassSuitesList ;
     SuitesDataModel testClassSuites;
     CtxModel testClassCtxModel;
 
-    //   测试类对象的列表与对象
+    /**
+     * 测试类对象的列表与对象
+      */
     List<SuitesDataModel> caseSuitesList ;
     SuitesDataModel caseSuites;
-    //  前置与后置
+    /**
+     * 前置与后置
+     */
     EachRunnableModel eachRunnable;
-
-    //    测试对象
+    /**
+     * 测试对象
+      */
     TestsModel tests;
 
     String testPlanId,
@@ -64,9 +68,9 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
      * 开始执行测试计划
      * @param testPlan
      */
-
     @Override
     public void testPlanExecutionStarted(TestPlan testPlan) {
+        //计划开始
         planStats = new StatsDataModel();
         planSuites = new SuitesDataModel();
         currentModle = new CurrentModle();
@@ -79,7 +83,6 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 return;
             }
         }
-//        ResultGenerator.customLog( "测试计划开始", "=======================" + JSON.toJSONString(testPlan));
     }
 
     /**
@@ -95,10 +98,12 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         if(parentOpt.isPresent()){
             pid = parentOpt.get();
         }
-//        System.out.println(testPlanId.equals(pid));
 
-        if (pid == null) {  // 共执行两次 ， 开始一次 ，结束一次
-//            初始化 测试套件 对象 列表
+        if (pid == null) {
+            /*
+             *   共执行两次 ， 开始一次 ，结束一次
+             *   初始化 测试套件 对象 列表
+             */
             if(testClassSuitesList==null){
                 testClassSuitesList = new ArrayList<>();
                 testClassSuites = new SuitesDataModel();
@@ -114,8 +119,10 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 testClassSuites.setUuid(uuqueid);
             }
         } else if (testPlanId.equals(pid)) {
-//            ResultGenerator.customLog("写入berfor", "写入berfor");
-            //            初始化case对象 列表
+            /*
+             * 写入berfor
+             * 初始化case对象 列表
+             */
             testsModelList = new ArrayList<>();
             passTestModleList = new ArrayList<>();
             failuresTestModleList = new ArrayList<>();
@@ -123,17 +130,15 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             caseSuitesStar = LocalDateTime.now();
 
             parentId = uuqueid;
-            // 写入berfor
+            //写入berfor
             eachRunnable = new EachRunnableModel();
             List<EachRunnableModel> eachRunnableList = new ArrayList<>();
-//
             eachRunnable.setTitle(testIdentifier.getDisplayName() + testIdentifier.getLegacyReportingName());
             eachRunnable.setBody(testIdentifier.getSource().toString());
             eachRunnable.setParent(this.getClass().getSimpleName());
-//      testClass   berfor  jiaru shuzu
-            eachRunnableList.add(eachRunnable);
-            //  添加测试类的before
 
+            eachRunnableList.add(eachRunnable);
+            //添加测试类的before
             eachRunnable.setAsync((long) 0);
             eachRunnable.setSync(true);
             eachRunnable.setTimeout((long) 2000);
@@ -159,30 +164,28 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             caseSuitesCtx.setRunnable(eachRunnable);
             caseSuitesCtx.setTest(eachRunnable);
             caseSuites.setCtx(caseSuitesCtx);
-//          初始化测试类的 用例列表
-
-//          填充ctc
+            /*
+             * 初始化测试类的 用例列表
+             * 填充ctc
+             */
             testClassCtxModel.setRunnable(new EachRunnableModel());
             testClassCtxModel.setTest(new EachRunnableModel());
-//          填充classSuites
+            //填充classSuites
             testClassSuites.setCtx(testClassCtxModel);
             testClassSuites.setTests(new ArrayList<>());
             testClassSuites.setPending(new ArrayList<>());
             testClassSuites.setBeforeAll(new ArrayList<>());
             testClassSuites.setBeforeEach(new ArrayList<>());
 
-
         } else if (parentId.equals(pid)) {
-//            ResultGenerator.customLog("写入case", "写入case");
+            //写入case
             testStar = LocalDateTime.now();
-//            写入测试用例
             childId = uuqueid;
             tests = new TestsModel();
             tests.setTitle(testIdentifier.getDisplayName());
             tests.setFullTitle(testIdentifier.getDisplayName());
             tests.setUuid(childId);
         }
-//        ResultGenerator.customLog(testIdentifier.getDisplayName(), "=======================" + JSON.toJSONString(testIdentifier));
     }
 
     /**
@@ -201,7 +204,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             pid = parentOpt.get();
         }
         if (pid.equals(parentId) && childId.equals(uuqueid)) {
-//            ResultGenerator.customLog("case结束", "caseEnd");
+            //case结束
             caseModel = new CaseModel();
             Duration duration = Duration.between(testStar, testEnd);
             tests.setDuration(duration.toMillis());
@@ -213,7 +216,6 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 tests.setCode("成功");
                 tests.setState("true");
                 passes++;
-//                ResultGenerator.customLog("case通过", "case通过");
                 passTestModleList.add(tests);
                 caseModel.setTitle(testIdentifier.getDisplayName());
                 caseModel.setValue(testExecutionResult.getStatus().name());
@@ -226,7 +228,6 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 tests.setState("false");
                 tests.setCode("失败原因："+testExecutionResult.getThrowable().get().getMessage());
                 failures++;
-//                ResultGenerator.customLog("case失败", "case失败");
                 failuresTestModleList.add(tests);
                 caseModel.setTitle(testIdentifier.getUniqueId());
                 caseModel.setValue(testExecutionResult.getStatus().name());
@@ -235,15 +236,14 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             caseModels.add(caseModel);
         } else if (uuqueid.equals(parentId)) {
             caseSuitesEnd = LocalDateTime.now();
-//            ResultGenerator.customLog("写入after", "写入after");
-//            测试类结束 写入 after
+
+            //   测试类结束 写入 after
             eachRunnable = new EachRunnableModel();
             List<EachRunnableModel> eachRunnableList = new ArrayList<>();
 
             eachRunnable.setTitle(testIdentifier.getDisplayName() + testIdentifier.getLegacyReportingName());
             eachRunnable.setBody(testIdentifier.getSource().toString());
             eachRunnable.setParent(this.getClass().getSimpleName());
-//      testClass   berfor  jiaru shuzu
             eachRunnableList.add(eachRunnable);
             //  添加测试类的before
             caseSuites.setAfterAll(new ArrayList<>());
@@ -251,7 +251,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             caseSuites.setTests(testsModelList);
             caseSuites.setPasses(passTestModleList);
             caseSuites.setFailures(failuresTestModleList);
-            //          caseSuites 数据填充
+            //  caseSuites 数据填充
             caseSuites.setTitle(testIdentifier.getDisplayName());
             caseSuites.setSuites(new ArrayList<>());
             caseSuites.setRoot(false);
@@ -274,8 +274,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             caseSuites.setDuration(duration.toMillis());
 
             caseSuitesList.add(caseSuites);
-
-//            testClassSuites 数据填充
+            // testClassSuites 数据填充
             testClassSuites.setAfterEach(new ArrayList<>());
             testClassSuites.setAfterAll(new ArrayList<>());
             testClassSuites.setRoot(false);
@@ -294,7 +293,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
             testClassSuites.setTotalSkipped((long)0);
             testClassSuites.setDuration((long) 0);
 
-//            测试用例 suite集合添加到 testclasssuites
+            // 测试用例 suite集合添加到 testclasssuites
             testClassSuites.setSuites(caseSuitesList);
         }
     }
@@ -306,9 +305,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
      */
     @Override
     public void testPlanExecutionFinished(TestPlan testPlan) {
-        /*
-         * 填充suties
-         */
+        //填充suties
         List<TestsModel> test =  new ArrayList<>();
         List<EachRunnableModel> runnableModels = new ArrayList<>();
         planSuites.setAfterAll(runnableModels);
@@ -341,7 +338,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planSuites.setTotalTime((long) 0);
         planSuites.setSuites(testClassSuitesList);
 
-//     planStats
+        //  planStats
         int testCount = failures+passes+skipped;
         planStats.setEnd(LocalDateTime.now());
         Duration duration = Duration.between(planStats.getStart(), planStats.getEnd());
@@ -357,7 +354,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planStats.setPassPercent(numberFormat(passes,testCount));
         planStats.setPending((long)0);
 
-//      设置logo 面板数据
+        //  设置logo 面板数据
         macacaReportModel = new MacacaReportModel();
         macacaReportModel.setStats(planStats);
         macacaReportModel.setSuites(planSuites);
@@ -380,7 +377,6 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
 
     /**
      * 执行跳过
-     *
      * @param testIdentifier
      */
     @Override
@@ -436,15 +432,10 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     public static void exec2(){
         String cmd = isWindows() ? "macaca-reporter.cmd -d  report.js" : "macaca-reporter -d  report.js";
         Runtime run = Runtime.getRuntime();
-//        ArrayList lines = new ArrayList();
         try {
             Process p = run.exec(cmd);
             BufferedInputStream in = new BufferedInputStream(p.getInputStream());
             BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
-//            String line;
-//            while((line = inBr.readLine()) != null) {
-//                lines.add(line);
-//            }
             inBr.close();
             in.close();
         } catch (Exception var7) {
@@ -479,8 +470,8 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         // 对字节数组Base64编码
         BASE64Encoder encoder = new BASE64Encoder();
         // 返回Base64编码过的字节数组字符串
-        String base64IMage = "data:image/png;base64,"+encoder.encode(Objects.requireNonNull(data));
-        return base64IMage;
+        String base64Image = "data:image/png;base64,"+encoder.encode(Objects.requireNonNull(data));
+        return base64Image;
     }
 
     /**
