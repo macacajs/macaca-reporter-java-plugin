@@ -97,14 +97,14 @@ public class BaseTest  implements TestWatcher {
 
 
 #### 指定计划名
-mvn执行配置增加
-```maven
+mvn执行配置增加 （默认名：Macaca测试报告）
+```
   -DplanName=测试计划报告
 ```
 
 #### 指定Current Screen图
-mvn执行配置增加
-```maven
+mvn执行配置增加 （不需要可忽略）
+```
   -Dlogo=http://www.logo.png
 ```
 
