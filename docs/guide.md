@@ -93,7 +93,7 @@ public class BaseTest  implements TestWatcher {
 
 ## 四、执行测试
 
-因为macaca-reporter-java-plugin是以maven插件的形式开发，所以需要通过mvn去执行测试，建议通过idea增加Mavne执行配置去便捷执行。
+因为macaca-reporter-java-plugin是以maven插件的形式开发，所以需要通过mvn去执行测试，建议通过idea增加Maven执行配置去便捷执行。
 
 
 #### 指定计划名
