@@ -6,13 +6,11 @@
 目前我们产出了第一个版本，也就是当前的`macaca-reporter-java-plugin`。报告效果如下：
 
 （图1，据说适当打码有益身心健康）
-![图1](../src/main/resources/image/macaca1.png)
-
+![图1](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca1.png)
 （图2）
-![图2](../src/main/resources/image/macaca2.png)
-
+![图2](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca2.png)
 （图3）
-![图3](../src/main/resources/image/macaca3.png)
+![图3](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca3.png)
 
 ## 如何使用macaca-reporter-java 
 
@@ -131,16 +129,16 @@ mvn执行配置参考
 
 （添加入口）
 
-![添加入口](../src/main/resources/image/maven1.png)
+![添加入口](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/maven1.png)
 
 （参考）
 
-![参考](../src/main/resources/image/maven2.png)
+![参考](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/maven2.png)
 
 
 ####  根据上图配置的运行结果
 
-![](../src/main/resources/image/macaca5.png)
+![](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca5.png)
 
 
 ## 开源仓库

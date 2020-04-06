@@ -85,13 +85,13 @@ mvn test -DplanName=这是一个测试计划名称
 
 ## Sample
 （图1）
-![图1](src/main/resources/image/macaca1.png)
+![图1](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca1.png)
 
 （图2）
-![图2](src/main/resources/image/macaca2.png)
+![图2](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca2.png)
 
 （图3）
-![图3](src/main/resources/image/macaca3.png)
+![图3](https://github.com/houseshi/macaca-reporter-plugin/blob/master/src/main/resources/image/macaca3.png)
 
 
 <!-- GITCONTRIBUTOR_END -->
