@@ -12,11 +12,11 @@
 （图3）
 ![图3](image/macaca3.png)
 
-## 如何使用macaca-reporter-java 
+## 如何使用macaca-reporter-java-plugin 
 
 因为我们目前是基于junit5进行开发，所以第一步你可能要在你的测试代码中引入junit5
 
-## pom.xml 引入 junit5
+## 一、 pom.xml 引入 junit5
 ```xml
 <dependency>
     <groupId>org.junit.platform</groupId>
@@ -39,7 +39,7 @@
 
 ```
 
-## 引入macaca-reporter-java-plugin
+## 二、引入macaca-reporter-java-plugin
 
 ```xml
         <dependency>
@@ -49,7 +49,7 @@
         </dependency>
 ```
 
-如果你已经使用了junit5完成了你的测试代码，不妨直接运行瞧一瞧试一下结果。
+如果你已经使用了junit5完成了你的测试代码，不妨直接运行尝试一下结果。
 
 如果你需要使用junit5开始改造你的代码，你可能需要了解下junit5。
 
@@ -57,9 +57,9 @@
 
 macaca-reporter-java-plugin实现原理源于官方文档的[6.1.5章节](https://junit.org/junit5/docs/current/user-guide/#launcher-api-listeners-custom)
 
-## 一些功能特性
+## 三、开始改造你的代码
 
-#### 获取截图
+#### 监听用例状态并给错误截图
 
 建议使用junit5的`@DisplayName`特性，你可以通过给用例添加该注解配置用例对应的标题，在用例失败的时候使用getDisplayName方法去命名错误图片。
 
@@ -76,6 +76,7 @@ public class BaseTest  implements TestWatcher {
       @BeforeEach
       void setUp() { ... }
       @Test
+      @DisplayName("失败的用例")
       void name() { ... }
       @AfterEach
       void tearDown() { ... }
@@ -89,30 +90,23 @@ public class BaseTest  implements TestWatcher {
 }
 ```
 
+
+## 四、执行测试
+
+因为macaca-reporter-java-plugin是以maven插件的形式开发，所以需要通过mvn去执行测试，建议通过idea增加Maven执行配置去便捷执行。
+
+
 #### 指定计划名
-mvn执行配置增加
-```maven
+mvn执行配置增加 （默认名：Macaca测试报告）
+```
   -DplanName=测试计划报告
 ```
 
 #### 指定Current Screen图
-mvn执行配置增加
-```maven
+mvn执行配置增加 （不需要可忽略）
+```
   -Dlogo=http://www.logo.png
 ```
-
-#### 测试报告生成位置
-
-测试执行完毕，你会在当前工程目录中发现多出一个`report.js`文件，和一个`/reports`目录。
-
-report.js 查看你会发现这里边储存的就是macaca-reporter所需要的json数据， 你也可以尝试修改report.js中json的数据，然后在当前目录执行 `macaca-reporter -d report.js `命令然后检查测试报告的变化。 
-
-/reports目录下自动生成的 index.hlml ,就是我们的测试报告了，你可以使用浏览器直接打开查看。
-
-
-## 如何执行测试
-
-因为macaca-reporter-java-plugin是以maven插件的形式开发，所以需要通过mvn去执行测试，建议通过idea增加Mavne执行配置去便捷执行。
 
 mvn执行配置参考
 
@@ -125,7 +119,16 @@ mvn执行配置参考
 ![参考](image/maven2.png)
 
 
-####  根据上图配置的运行结果
+#### 测试报告生成位置
+
+测试执行完毕，你会在当前工程目录中发现多出一个`report.js`文件，和一个`/reports`目录。
+
+report.js查看你会发现这里边储存的就是macaca-reporter所需要的json数据， 你也可以尝试修改report.js中json的数据，然后在当前目录执行 `macaca-reporter -d report.js `命令然后检查测试报告的变化。 
+
+/reports目录下自动生成的 index.html ,就是我们的测试报告了，你可以使用浏览器直接打开查看。
+
+
+## 五、运行结果（根据上图配置）
 
 ![](image/macaca5.png)
 

@@ -87,6 +87,16 @@ mvn test -DplanName=这是一个测试计划名称
 
 <!-- GITCONTRIBUTOR_END -->
 
+## Sample
+（图1）
+![图1](docs/image/macaca1.png)
+
+（图2）
+![图2](docs/image/macaca2.png)
+
+（图3）
+![图3](docs/image/macaca3.png)
+
 ## License
 
 The MIT License (MIT)

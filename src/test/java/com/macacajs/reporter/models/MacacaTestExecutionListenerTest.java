@@ -1,7 +1,8 @@
 package com.macacajs.reporter.models;
 
 import com.macacajs.reporter.MacacaTestExecutionListener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 
 /**
