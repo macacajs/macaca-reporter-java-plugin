@@ -16,7 +16,7 @@
 
 因为我们目前是基于junit5进行开发，所以第一步你可能要在你的测试代码中引入junit5
 
-##一、  pom.xml 引入 junit5
+## 一、 pom.xml 引入 junit5
 ```xml
 <dependency>
     <groupId>org.junit.platform</groupId>
@@ -39,7 +39,7 @@
 
 ```
 
-##二、 引入macaca-reporter-java-plugin
+## 二、引入macaca-reporter-java-plugin
 
 ```xml
         <dependency>
