@@ -1,7 +1,7 @@
 
 # Macaca Reporter Plugin For Java
 
-[![Build Status](https://www.travis-ci.org/niaoshuai/macaca-reporter-java-plugin.svg?branch=master)](https://travis-ci.org/seata/seata)
+[![Build Status](https://www.travis-ci.org/niaoshuai/macaca-reporter-java-plugin.svg?branch=master)](https://travis-ci.org/niaoshuai/macaca-reporter-java-plugin)
 
 ## 使用方法
 
