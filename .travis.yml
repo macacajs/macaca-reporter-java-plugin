@@ -20,8 +20,4 @@ before_script:
     fi
 
 script:
-  - if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_PULL_REQUEST" == false ]; then
-    travis_wait 30 ./mvnw clean install -DskipTests=false -q -P image -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn;
-    else
-    travis_wait 30 ./mvnw clean install -DskipTests=false -q -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn;
-    fi
+    travis_wait 30 ./mvnw clean install;
