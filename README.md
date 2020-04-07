@@ -1,17 +1,7 @@
 
-# macaca-reporter-java-plugin
+# Macaca Reporter Plugin For Java
 
-Macaca Reporter Plugin For Java
-<p align="center">
-  <a href="//macacajs.github.io">
-    <img
-      alt="Macaca"
-      src="https://macacajs.github.io/macaca-logo/svg/monkey.svg"
-      width="200"
-    />
-  </a>
-</p>
-
+[![Build Status](https://www.travis-ci.org/niaoshuai/macaca-reporter-java-plugin.svg?branch=master)](https://travis-ci.org/seata/seata)
 
 ## 使用方法
 
