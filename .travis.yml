@@ -20,4 +20,4 @@ before_script:
     fi
 
 script:
-    travis_wait 30 ./mvnw clean install;
+    mvn clean install;
