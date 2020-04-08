@@ -7,7 +7,7 @@
 
 ## 使用方法
 
-以 maven 插件的形式进行开发，你只需要在 pom.xml 文件中引入该插件即可，并使用 mvn 执行测试即可。
+此工程是 [macaca-reporter](//github.com/macacajs/macaca-reporter) 的 maven 插件，你只需要在 pom.xml 文件中引入该插件即可，并使用 mvn 执行测试即可。
 
 ```xml
 <dependency>
