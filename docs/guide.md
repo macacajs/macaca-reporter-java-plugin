@@ -134,7 +134,7 @@ report.js查看你会发现这里边储存的就是macaca-reporter所需要的js
 
 ## 开源仓库
 
-[macaca-reporter-java-plugin](https://github.com/niaoshuai/macaca-reporter-java-plugin)
+[macaca-reporter-java-plugin](https://github.com/macacajs/macaca-reporter-java-plugin)
 
 ## 问题&建议
 
