@@ -43,7 +43,7 @@
 <dependency>
     <groupId>com.macacajs</groupId>
     <artifactId>macaca-reporter-java-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 </dependency>
 ```
 
