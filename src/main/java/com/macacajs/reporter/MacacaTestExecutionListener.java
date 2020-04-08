@@ -202,7 +202,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         if(parentOpt.isPresent()){
             pid = parentOpt.get();
         }
-        if (pid.equals(parentId) && childId.equals(uuqueid)) {
+        if (testIdentifier.isTest()) {
             //case结束
             caseModel = new CaseModel();
             Duration duration = Duration.between(testStar, testEnd);
@@ -216,7 +216,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 tests.setState("true");
                 passes++;
                 passTestModleList.add(tests);
-                caseModel.setTitle(testIdentifier.getDisplayName());
+                caseModel.setTitle(testIdentifier.getDisplayName() +"-"+ testIdentifier.getLegacyReportingName());
                 caseModel.setValue(testExecutionResult.getStatus().name());
             } else {
                 tests.setContext(imageNow(testIdentifier.getDisplayName()));
@@ -228,7 +228,7 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
                 tests.setCode("失败原因："+testExecutionResult.getThrowable().get().getMessage());
                 failures++;
                 failuresTestModleList.add(tests);
-                caseModel.setTitle(testIdentifier.getUniqueId());
+                caseModel.setTitle(testIdentifier.getDisplayName() +"-"+ testIdentifier.getLegacyReportingName());
                 caseModel.setValue(testExecutionResult.getStatus().name());
             }
             testsModelList.add(tests);
@@ -480,6 +480,9 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     private static String imageNow(String name) throws IOException {
         File file = new File(System.getProperty("user.dir")+File.separator+"screenshot");
         File[] fileList = file.listFiles();
+        if(fileList==null){
+            return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+        }
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].isFile()) {
                 String filePath = fileList[i].getCanonicalPath();
