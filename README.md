@@ -5,6 +5,15 @@
 
 [![Build Status](https://www.travis-ci.org/macacajs/macaca-reporter-java-plugin.svg?branch=master)](https://travis-ci.org/macacajs/macaca-reporter-java-plugin)
 
+<!-- GITCONTRIBUTOR_START -->
+
+## Contributors
+
+|[<img src="https://avatars3.githubusercontent.com/u/50022460?v=4" width="100px;"/><br/><sub><b>houseshi</b></sub>](https://github.com/houseshi)<br/>|[<img src="https://avatars1.githubusercontent.com/u/5117373?v=4" width="100px;"/><br/><sub><b>niaoshuai</b></sub>](https://github.com/niaoshuai)<br/>|
+| :---: | :---: | 
+
+<!-- GITCONTRIBUTOR_END -->
+
 ## 使用方法
 
 此工程是 [macaca-reporter](//github.com/macacajs/macaca-reporter) 的 maven 插件，你只需要在 pom.xml 文件中引入该插件即可，并使用 mvn 执行测试即可。
@@ -72,15 +81,6 @@ $ mvn test -DplanName=这是一个测试计划名称
 ## 基于 gitLab CI 自动执行
 
 我们增加了 gitLab CI 的配置模板，可供参考 详见 `gitlab-ci.yml` 文件。
-
-<!-- GITCONTRIBUTOR_START -->
-
-## Contributors
-
-|[<img src="https://avatars3.githubusercontent.com/u/50022460?v=4" width="100px;"/><br/><sub><b>houseshi</b></sub>](https://github.com/houseshi)<br/>|[<img src="https://avatars1.githubusercontent.com/u/5117373?v=4" width="100px;"/><br/><sub><b>niaoshuai</b></sub>](https://github.com/niaoshuai)<br/>|
-| :---: | :---: | 
-
-<!-- GITCONTRIBUTOR_END -->
 
 ## Sample
 
