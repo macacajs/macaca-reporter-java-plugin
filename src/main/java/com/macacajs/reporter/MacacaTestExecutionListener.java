@@ -197,11 +197,6 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         testEnd = LocalDateTime.now();
         String uuqueid = testIdentifier.getUniqueId();
-        Optional<String> parentOpt = testIdentifier.getParentId();
-        String pid = null;
-        if(parentOpt.isPresent()){
-            pid = parentOpt.get();
-        }
         if (testIdentifier.isTest()) {
             //case结束
             caseModel = new CaseModel();
