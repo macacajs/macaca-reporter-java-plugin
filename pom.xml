@@ -41,6 +41,29 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-macaca-macaca-reporter-java-plugin</id>
+            <name>macaca-macaca-reporter-java-plugin</name>
+            <url>https://api.bintray.com/maven/macaca/macaca-reporter-java-plugin/macaca-reporter-java-plugin/;publish=1;override=1;</url>
+        </repository>
+    </distributionManagement>
 </project>
 
