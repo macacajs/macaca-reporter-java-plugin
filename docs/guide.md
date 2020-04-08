@@ -19,9 +19,15 @@
 ## 一、 pom.xml 引入 junit5
 ```xml
 <dependency>
-    <groupId>org.junit.platform</groupId>
-    <artifactId>junit-platform-launcher</artifactId>
-    <version>1.6.0</version>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.6.0</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-params</artifactId>
+    <version>5.6.0</version>
     <scope>test</scope>
 </dependency>
 <dependency>
@@ -30,13 +36,6 @@
     <version>5.6.0</version>
     <scope>test</scope>
 </dependency>
-<dependency>
-    <groupId>org.junit.vintage</groupId>
-    <artifactId>junit-vintage-engine</artifactId>
-    <version>5.6.0</version>
-    <scope>test</scope>
-</dependency>
-
 ```
 
 ## 二、引入macaca-reporter-java-plugin
@@ -93,7 +92,7 @@ public class BaseTest  implements TestWatcher {
 
 ## 四、执行测试
 
-因为macaca-reporter-java-plugin是以maven插件的形式开发，所以需要通过mvn去执行测试，建议通过idea增加Maven执行配置去便捷执行。
+因为macaca-reporter-java-plugin是以maven插件的形式开发，建议通过idea增加Maven执行配置去便捷执行。
 
 
 #### 指定计划名
