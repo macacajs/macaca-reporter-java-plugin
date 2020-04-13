@@ -10,9 +10,7 @@ import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
-
 import java.io.*;
-
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -97,86 +95,90 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         if(parentOpt.isPresent()){
             pid = parentOpt.get();
         }
+        if(testIdentifier.isContainer()){
+            if (pid == null) {
+                /*
+                 *   共执行两次 ， 开始一次 ，结束一次
+                 *   初始化 测试套件 对象 列表
+                 */
+                if(testClassSuitesList==null){
+                    testClassSuitesList = new ArrayList<>();
+                    testClassSuites = new SuitesDataModel();
+                    caseSuitesList = new ArrayList<>();
+                    testClassCtxModel =  new CtxModel();
+                    testClassSuites.setFullFile(testIdentifier.getLegacyReportingName());
+                    testClassSuites.setParent(parentId);
+                    testClassSuites.setUuid(uuqueid);
+                }else {
+                    testClassSuitesList.add(testClassSuites);
+                    String date = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+                    testClassSuites.setTitle(planName);
+                    testClassSuites.setFile(date+"-"+planName);
 
-        if (pid == null) {
-            /*
-             *   共执行两次 ， 开始一次 ，结束一次
-             *   初始化 测试套件 对象 列表
-             */
-            if(testClassSuitesList==null){
-                testClassSuitesList = new ArrayList<>();
-                testClassSuites = new SuitesDataModel();
-                caseSuitesList = new ArrayList<>();
-                testClassCtxModel =  new CtxModel();
-            }else {
-                testClassSuitesList.add(testClassSuites);
-                String date = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
-                testClassSuites.setTitle(planName);
-                testClassSuites.setFile(date+"-"+planName);
-                testClassSuites.setFullFile(testIdentifier.getLegacyReportingName());
-                testClassSuites.setParent(parentId);
-                testClassSuites.setUuid(uuqueid);
+                }
+            } else if (testPlanId.equals(pid)) {
+                /*
+                 * 写入berfor
+                 * 初始化case对象 列表
+                 */
+                testsModelList = new ArrayList<>();
+                passTestModleList = new ArrayList<>();
+                failuresTestModleList = new ArrayList<>();
+                caseSuites = new SuitesDataModel();
+                caseSuitesStar = LocalDateTime.now();
+
+                parentId = uuqueid;
+                //写入berfor
+                eachRunnable = new EachRunnableModel();
+                List<EachRunnableModel> eachRunnableList = new ArrayList<>();
+                eachRunnable.setTitle(testIdentifier.getDisplayName() + testIdentifier.getLegacyReportingName());
+                eachRunnable.setBody(testIdentifier.getSource().toString());
+                eachRunnable.setParent(this.getClass().getSimpleName());
+
+                eachRunnableList.add(eachRunnable);
+                //添加测试类的before
+                eachRunnable.setAsync((long) 0);
+                eachRunnable.setSync(true);
+                eachRunnable.setTimeout((long) 2000);
+                eachRunnable.setSlow((long) 75);
+                eachRunnable.setEnableTimeouts(true);
+                eachRunnable.setTimedOut(true);
+                eachRunnable.setTrace(new Object());
+                eachRunnable.setRetries((long) -1);
+                eachRunnable.setCurrentRetry((long) 0);
+                eachRunnable.setPending(false);
+                eachRunnable.setType(testIdentifier.getType().name());
+                eachRunnable.setParent(parentId);
+                eachRunnable.setCtx(new CtxModel());
+                eachRunnable.setEvents(new EventsModel());
+                eachRunnable.setEventsCount((long) 1);
+                eachRunnable.setTimer(new RunnableTimer());
+                eachRunnable.setDuration((long) 0);
+                eachRunnable.setErr(null);
+
+                caseSuites.setBeforeAll(new ArrayList<>());
+                caseSuites.setBeforeEach(eachRunnableList);
+                CtxModel caseSuitesCtx = new CtxModel();
+                caseSuitesCtx.setRunnable(eachRunnable);
+                caseSuitesCtx.setTest(eachRunnable);
+                caseSuites.setCtx(caseSuitesCtx);
+                /*
+                 * 初始化测试类的 用例列表
+                 * 填充ctc
+                 */
+                testClassCtxModel.setRunnable(new EachRunnableModel());
+                testClassCtxModel.setTest(new EachRunnableModel());
+                //填充classSuites
+                testClassSuites.setCtx(testClassCtxModel);
+                testClassSuites.setTests(new ArrayList<>());
+                testClassSuites.setPending(new ArrayList<>());
+                testClassSuites.setBeforeAll(new ArrayList<>());
+                testClassSuites.setBeforeEach(new ArrayList<>());
+
             }
-        } else if (testPlanId.equals(pid)) {
-            /*
-             * 写入berfor
-             * 初始化case对象 列表
-             */
-            testsModelList = new ArrayList<>();
-            passTestModleList = new ArrayList<>();
-            failuresTestModleList = new ArrayList<>();
-            caseSuites = new SuitesDataModel();
-            caseSuitesStar = LocalDateTime.now();
+        }
 
-            parentId = uuqueid;
-            //写入berfor
-            eachRunnable = new EachRunnableModel();
-            List<EachRunnableModel> eachRunnableList = new ArrayList<>();
-            eachRunnable.setTitle(testIdentifier.getDisplayName() + testIdentifier.getLegacyReportingName());
-            eachRunnable.setBody(testIdentifier.getSource().toString());
-            eachRunnable.setParent(this.getClass().getSimpleName());
-
-            eachRunnableList.add(eachRunnable);
-            //添加测试类的before
-            eachRunnable.setAsync((long) 0);
-            eachRunnable.setSync(true);
-            eachRunnable.setTimeout((long) 2000);
-            eachRunnable.setSlow((long) 75);
-            eachRunnable.setEnableTimeouts(true);
-            eachRunnable.setTimedOut(true);
-            eachRunnable.setTrace(new Object());
-            eachRunnable.setRetries((long) -1);
-            eachRunnable.setCurrentRetry((long) 0);
-            eachRunnable.setPending(false);
-            eachRunnable.setType(testIdentifier.getType().name());
-            eachRunnable.setParent(parentId);
-            eachRunnable.setCtx(new CtxModel());
-            eachRunnable.setEvents(new EventsModel());
-            eachRunnable.setEventsCount((long) 1);
-            eachRunnable.setTimer(new RunnableTimer());
-            eachRunnable.setDuration((long) 0);
-            eachRunnable.setErr(null);
-
-            caseSuites.setBeforeAll(new ArrayList<>());
-            caseSuites.setBeforeEach(eachRunnableList);
-            CtxModel caseSuitesCtx = new CtxModel();
-            caseSuitesCtx.setRunnable(eachRunnable);
-            caseSuitesCtx.setTest(eachRunnable);
-            caseSuites.setCtx(caseSuitesCtx);
-            /*
-             * 初始化测试类的 用例列表
-             * 填充ctc
-             */
-            testClassCtxModel.setRunnable(new EachRunnableModel());
-            testClassCtxModel.setTest(new EachRunnableModel());
-            //填充classSuites
-            testClassSuites.setCtx(testClassCtxModel);
-            testClassSuites.setTests(new ArrayList<>());
-            testClassSuites.setPending(new ArrayList<>());
-            testClassSuites.setBeforeAll(new ArrayList<>());
-            testClassSuites.setBeforeEach(new ArrayList<>());
-
-        } else if (parentId.equals(pid)) {
+        if (testIdentifier.isTest()) {
             //写入case
             testStar = LocalDateTime.now();
             childId = uuqueid;
@@ -330,6 +332,13 @@ public class MacacaTestExecutionListener implements TestExecutionListener {
         planSuites.setTotalPending((long) 0);
         planSuites.setTotalPasses((long) 0);
         planSuites.setTotalTime((long) 0);
+
+        if(testClassSuitesList.size()==0){
+            testClassSuitesList.add(testClassSuites);
+            String date = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+            testClassSuites.setTitle(planName);
+            testClassSuites.setFile(date+"-"+planName);
+        }
         planSuites.setSuites(testClassSuitesList);
 
         //  planStats
