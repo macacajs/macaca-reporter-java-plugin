@@ -4,6 +4,7 @@
 ---
 
 [![Build Status](https://www.travis-ci.org/macacajs/macaca-reporter-java-plugin.svg?branch=master)](https://travis-ci.org/macacajs/macaca-reporter-java-plugin)
+[ ![Download](https://api.bintray.com/packages/macaca/macaca-reporter-java-plugin/macaca-reporter-java-plugin/images/download.svg?version=1.0) ](https://bintray.com/macaca/macaca-reporter-java-plugin/macaca-reporter-java-plugin/1.0/link)
 
 <!-- GITCONTRIBUTOR_START -->
 
@@ -22,7 +23,7 @@
 <dependency>
     <groupId>com.macacajs</groupId>
     <artifactId>macaca-reporter-java-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 </dependency>
 ```
 
