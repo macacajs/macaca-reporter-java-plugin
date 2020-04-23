@@ -6,7 +6,7 @@
 
     <groupId>com.macacajs</groupId>
     <artifactId>macaca-reporter-java-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <description>macaca-reporter-java-plugin</description>
 
     <properties>
@@ -40,7 +40,6 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
