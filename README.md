@@ -19,6 +19,7 @@
 
 此工程是 [macaca-reporter](//github.com/macacajs/macaca-reporter) 的 maven 插件，你只需要在 pom.xml 文件中引入该插件即可，并使用 mvn 执行测试即可。
 
+注意: 若是下载不到,请配置阿里云 maven 仓库
 ```xml
 <dependency>
     <groupId>com.macacajs</groupId>
